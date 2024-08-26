@@ -6,11 +6,11 @@ from .forms import ContactForm, LoginForm, RegisterForm
 
 def home_page(request):
     context = {
-        "title": "Hello World!",
-        "content": "Welcome to the homepage",
+        "title": "Django Ecommerce Website",
+        "content": "But this is a nice beach",
     }
     if request.user.is_authenticated():
-        context["premium_content"] = "THIS IS PREMIUM CONTENT"
+        context["premium_content"] = "This is some content for premium slave"
     return render(request, "home_page.html", context)
 
 def about_page(request):
