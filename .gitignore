@@ -6,6 +6,7 @@ src/ecommerce/aws/ignore2.py
 
 # Virtualenv related
 bin/
+lib/
 include/
 pip-selfcheck.json
 
