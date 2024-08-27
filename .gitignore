@@ -114,3 +114,4 @@ celerybeat-schedule
 
 # mypy
 **/.mypy_cache/
+src/db.sqlite3
