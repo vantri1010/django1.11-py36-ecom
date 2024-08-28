@@ -48,6 +48,7 @@ urlpatterns = [
     # url(r'^products-fbv/(?P<pk>\d+)/$', product_detail_view),
     url(r'^admin/', admin.site.urls),
     url(r'^products/', include("products.urls", namespace='products')),
+    url(r'^search/', include("search.urls", namespace='search')),
 ]
 
 if settings.DEBUG:
