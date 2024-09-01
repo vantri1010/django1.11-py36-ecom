@@ -24,7 +24,6 @@ def contact_page(request):
     contact_form = ContactForm(request.POST or None)
     context = {
         "title": "Contact",
-        "content": "Welcome to the contact page",
         "form": contact_form
     }
     if contact_form.is_valid():
@@ -39,6 +38,7 @@ def contact_page(request):
 def login_page(request):
     form = LoginForm(request.POST or None)
     context = {
+        "title": "Login",
         "form": form
     }
     print("User logged in")
@@ -56,14 +56,13 @@ def login_page(request):
             return redirect("/")
         else:
             print("Error")
-
-
-    return render(request, "auth/login.html", context)
+    return render(request, "contact/view.html", context)
 
 User = get_user_model()
 def register_page(request):
     form = RegisterForm(request.POST or None)
     context = {
+        "title": "Register",
         "form": form
     }
     if form.is_valid():
@@ -73,4 +72,4 @@ def register_page(request):
         password = form.cleaned_data.get("password")
         new_user = User.objects.create_user(username, email, password)
         print(new_user)
-    return render(request, "auth/register.html", context)
+    return render(request, "contact/view.html", context)
