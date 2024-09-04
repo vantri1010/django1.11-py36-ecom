@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.db.models.signals import pre_save, post_save, m2m_changed
@@ -22,7 +23,7 @@ class CartManager(models.Manager):
             new_obj = True
             request.session['cart_id'] = cart_obj.id
         return cart_obj, new_obj
-    
+
     def new(self, user=None):
         user_obj = None
         if user is not None:
@@ -39,7 +40,7 @@ class Cart(models.Model):
     timestamp   = models.DateTimeField(auto_now_add=True)
 
     objects = CartManager()
-    
+
     def __str__(self):
         return str(self.id)
 
@@ -57,7 +58,7 @@ m2m_changed.connect(m2m_changed_cart_receiver, sender=Cart.products.through)
 
 def pre_save_cart_receiver(sender, instance, *args, **kwargs):
     if instance.subtotal > 0:
-        instance.total = instance.subtotal  + 10 #* 1.08
+        instance.total = Decimal(instance.subtotal) * Decimal(1.08) # 8% tax
     else:
         instance.total = 0.00
 
