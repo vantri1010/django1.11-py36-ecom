@@ -5,7 +5,13 @@ User = get_user_model()
 
 
 class GuestForm(forms.Form):
-    email    = forms.EmailField()
+    email    = forms.EmailField(widget=forms.TextInput(
+                    attrs={
+                        "class": "form-control", 
+                        "placeholder": "Your email"
+                    }
+                )
+            )
 
 
 class LoginForm(forms.Form):
