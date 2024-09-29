@@ -17,7 +17,7 @@ def cart_detail_api_view(request):
     products = [{
             "id": x.id,
             "url": x.get_absolute_url(),
-            "name": x.title, 
+            "name": x.name, 
             "price": x.price
             } 
             for x in cart_obj.products.all()]
