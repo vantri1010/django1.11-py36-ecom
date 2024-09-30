@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     #our apps
     'accounts',
     'addresses',
+    'analytics',
     'billing',
     'carts',
     'orders',
@@ -50,6 +51,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User' #changes the built-in user model to ours
+
+FORCE_SESSION_TO_ONE = False
+FORCE_INACTIVE_USER_ENDSESSION= False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
