@@ -10,8 +10,8 @@ from django.utils.http import is_safe_url
 
 
 import stripe
-STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_51Q5NyiPNuLnEXVoCbuqzrognIXPZLBJEDye5MK2fBMso7aUWNUgk6oJ2TnCaq7gPpNCrSXOY0EszdcL50nXVrp9K00fpSdTGjJ")
-STRIPE_PUB_KEY =  getattr(settings, "STRIPE_PUB_KEY", 'pk_test_51Q5NyiPNuLnEXVoCYaKrzmuRkXdf777E3WNes609qZS3JDVtS2SEYBtd4l7CNQVgIJ22VLmt26ioDuDKseDyd5VE00WJks7WED')
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", "sk_test_51Q50IsA8NTI0yYgtFKUb7m6XMHTPFI3kSM3bZY0slHhnFbXCfjlQmb3W8qCPACvCxijshInmQrc9EyEFWU7fXrq900E2wWfrcO")
+STRIPE_PUB_KEY =  getattr(settings, "STRIPE_PUB_KEY", 'pk_test_51Q50IsA8NTI0yYgtEJYs2Lq2x7uKRQeVX1n6VRqOuyCN3IFhFdf6ZZ5M8A7LTetK6LZ01VbUPWp4KsZ6hLj0DYSe00ONhVaJoT')
 stripe.api_key = STRIPE_SECRET_KEY
 
 
@@ -42,8 +42,11 @@ def payment_method_createview(request):
         if not billing_profile:
             return HttpResponse({"message": "Cannot find this user"}, status_code=401)
         token = request.POST.get("token")
+        print("billing token: " + token)
         if token is not None:
             new_card_obj = Card.objects.add_new(billing_profile, token)
+        else:
+            return JsonResponse({"message": "Error 400"}, status=400)
         return JsonResponse({"message": "Success! Your card was added."})
     return HttpResponse("error", status_code=401)
 
