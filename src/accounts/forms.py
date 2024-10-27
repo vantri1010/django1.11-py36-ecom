@@ -1,8 +1,27 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 
 User = get_user_model()
+
+from .models import EmailActivation
+
+
+class ReactivateEmailForm(forms.Form):
+    email       = forms.EmailField()
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        qs = EmailActivation.objects.email_exists(email) 
+        if not qs.exists():
+            register_link = reverse("register")
+            msg = """This email does not exists, would you like to <a href="{link}">register</a>?
+            """.format(link=register_link)
+            raise forms.ValidationError(mark_safe(msg))
+        return email
+
 
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -30,6 +49,8 @@ class UserAdminCreationForm(forms.ModelForm):
             user.save()
         return user
 
+
+
 class UserAdminChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
@@ -46,13 +67,18 @@ class UserAdminChangeForm(forms.ModelForm):
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         return self.initial["password"]
-    
+
+
+
 class GuestForm(forms.Form):
     email    = forms.EmailField()
+
 
 class LoginForm(forms.Form):
     email    = forms.EmailField(label='Email')
     password = forms.CharField(widget=forms.PasswordInput)
+
+
 
 class RegisterForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
@@ -76,7 +102,9 @@ class RegisterForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super(RegisterForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        # user.active = False # send confirmation email
+        user.is_active = False # send confirmation email via signals
+        # obj = EmailActivation.objects.create(user=user)
+        # obj.send_activation_email()
         if commit:
             user.save()
         return user
