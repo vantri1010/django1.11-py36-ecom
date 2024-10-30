@@ -34,6 +34,7 @@ from billing.views import payment_method_view, payment_method_createview
 from .views import home_page, about_page, contact_page
 from marketing.views import MarketingPreferenceUpdateView, MailchimpWebhookView
 from django.views.generic import TemplateView, RedirectView
+from orders.views import LibraryView
 
 
 urlpatterns = [
@@ -55,6 +56,7 @@ urlpatterns = [
     url(r'^register/guest/$', GuestRegisterView.as_view(), name='guest_register'),
     url(r'^register/$', RegisterView.as_view(), name='register'),
     url(r'^bootstrap/$', TemplateView.as_view(template_name='bootstrap/example.html')),
+    url(r'^library/$', LibraryView.as_view(), name='library'),
     url(r'^admin/', admin.site.urls),
     url(r'^orders/', include("orders.urls", namespace='orders')),
     url(r'^products/', include("products.urls", namespace='products')),
