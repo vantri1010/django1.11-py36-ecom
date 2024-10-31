@@ -3,10 +3,11 @@ from django.db import models
 from django.db.models.signals import post_save, pre_save
 from django.core.urlresolvers import reverse
 from accounts.models import GuestEmail
-User = settings.AUTH_USER_MODEL
-
 import stripe
-stripe.api_key = "sk_test_51Q5NyiPNuLnEXVoCbuqzrognIXPZLBJEDye5MK2fBMso7aUWNUgk6oJ2TnCaq7gPpNCrSXOY0EszdcL50nXVrp9K00fpSdTGjJ"
+STRIPE_SECRET_KEY = getattr(settings, "STRIPE_SECRET_KEY", None)
+STRIPE_PUB_KEY =  getattr(settings, "STRIPE_PUB_KEY", None)
+stripe.api_key = STRIPE_SECRET_KEY
+User = settings.AUTH_USER_MODEL
 
 
 class BillingProfileManager(models.Manager):

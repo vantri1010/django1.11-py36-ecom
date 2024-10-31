@@ -23,5 +23,5 @@ docker run -d -t -i -p 8000:8000 \
     -e EMAIL_HOST_USER=your_user \
     -e EMAIL_HOST_PASSWORD=your_password \
     -e EMAIL_PORT=your_port \
-    my-django-app
+    ecommerce
 ```

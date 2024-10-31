@@ -35,7 +35,6 @@ class SalesAjaxView(View):
                     salesItems.append(
                         day_total
                     )
-                #print(datetime_list)
 
                 data['labels'] = labels
                 data['data'] = salesItems
